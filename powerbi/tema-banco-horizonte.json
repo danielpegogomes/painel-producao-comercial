@@ -1,0 +1,34 @@
+{
+  "name": "Banco Horizonte",
+  "dataColors": ["#2A78D6", "#EB6834", "#1BAF7A", "#EDA100", "#E87BA4", "#008300", "#6250D6", "#E34948"],
+  "good": "#0CA30C",
+  "neutral": "#FAB219",
+  "bad": "#D03B3B",
+  "maximum": "#104281",
+  "center": "#86B6EF",
+  "minimum": "#CDE2FB",
+  "background": "#FCFCFB",
+  "foreground": "#0B0B0B",
+  "tableAccent": "#104281",
+  "textClasses": {
+    "callout": { "fontFace": "Segoe UI Semibold", "fontSize": 28, "color": "#0B0B0B" },
+    "title": { "fontFace": "Segoe UI Semibold", "fontSize": 12, "color": "#0B0B0B" },
+    "header": { "fontFace": "Segoe UI Semibold", "fontSize": 11, "color": "#52514E" },
+    "label": { "fontFace": "Segoe UI", "fontSize": 10, "color": "#52514E" }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [{ "color": { "solid": { "color": "#FCFCFB" } }, "transparency": 0 }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#E1E0D9" } }, "radius": 12 }],
+        "visualHeader": [{ "show": false }],
+        "dropShadow": [{ "show": false }],
+        "valueAxis": [{ "gridlineStyle": "solid", "gridlineColor": { "solid": { "color": "#E1E0D9" } }, "gridlineThickness": 1 }],
+        "categoryAxis": [{ "gridlineShow": false }]
+      }
+    },
+    "page": {
+      "*": { "background": [{ "color": { "solid": { "color": "#F4F5F2" } }, "transparency": 0 }] }
+    }
+  }
+}

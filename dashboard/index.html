@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel de Produção Comercial</title>
+  <meta name="description" content="Painel executivo de produção comercial PF/PJ de um banco fictício: produção × meta, regionais, produtos, canais e agências. Projeto de portfólio de Daniel Pego.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23104281'/%3E%3Cpath d='M9 21h14M11 21v-6M16 21V10M21 21v-9' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo__marca">
+      <span class="logo" aria-hidden="true">
+        <svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M9 21h14M11 21v-6M16 21V10M21 21v-9"/></svg>
+      </span>
+      <div>
+        <p class="topo__banco">Banco Horizonte · Superintendência Comercial PF/PJ</p>
+        <h1>Painel de Produção Comercial</h1>
+      </div>
+    </div>
+    <div class="topo__acoes">
+      <span class="topo__atualizacao" id="atualizacao"></span>
+      <button class="botao-icone" id="tema" type="button" aria-label="Alternar tema claro e escuro">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+      </button>
+      <a class="botao" href="https://github.com/danielpegogomes/painel-producao-comercial" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+        Ver código
+      </a>
+    </div>
+  </header>
+
+  <main class="pagina">
+    <section class="filtros" aria-label="Filtros do painel">
+      <div class="filtro filtro--periodo" role="group" aria-label="Período">
+        <span class="filtro__rotulo">Período</span>
+        <div class="segmentado" id="f-periodo"></div>
+      </div>
+      <label class="filtro">
+        <span class="filtro__rotulo">Segmento</span>
+        <select id="f-segmento"><option value="Todos">PF e PJ</option><option value="PF">Pessoa física</option><option value="PJ">Pessoa jurídica</option></select>
+      </label>
+      <label class="filtro">
+        <span class="filtro__rotulo">Regional</span>
+        <select id="f-regional"></select>
+      </label>
+      <label class="filtro">
+        <span class="filtro__rotulo">Produto</span>
+        <select id="f-produto"></select>
+      </label>
+      <button class="botao botao--fantasma" id="limpar" type="button">Limpar filtros</button>
+    </section>
+
+    <section class="kpis" aria-label="Indicadores do período">
+      <article class="kpi kpi--heroi">
+        <p class="kpi__rotulo">Produção no período</p>
+        <p class="kpi__heroi" id="k-producao">—</p>
+        <p class="kpi__delta" id="k-producao-delta"></p>
+        <p class="kpi__nota" id="k-producao-nota"></p>
+      </article>
+      <article class="kpi">
+        <p class="kpi__rotulo">Atingimento da meta</p>
+        <p class="kpi__valor" id="k-atingimento">—</p>
+        <div class="medidor" aria-hidden="true"><span id="k-atingimento-barra"></span><i></i></div>
+        <p class="kpi__nota" id="k-atingimento-nota"></p>
+      </article>
+      <article class="kpi">
+        <p class="kpi__rotulo">Contratos</p>
+        <p class="kpi__valor" id="k-contratos">—</p>
+        <p class="kpi__delta" id="k-contratos-delta"></p>
+      </article>
+      <article class="kpi">
+        <p class="kpi__rotulo">Ticket médio</p>
+        <p class="kpi__valor" id="k-ticket">—</p>
+        <p class="kpi__delta" id="k-ticket-delta"></p>
+      </article>
+      <article class="kpi">
+        <p class="kpi__rotulo">Produção em canais digitais</p>
+        <p class="kpi__valor" id="k-digital">—</p>
+        <svg class="sparkline" id="k-digital-spark" aria-hidden="true"></svg>
+        <p class="kpi__delta" id="k-digital-delta"></p>
+      </article>
+    </section>
+
+    <section class="cartao cartao--leituras" aria-label="Leituras do período">
+        <header class="cartao__topo">
+          <div>
+            <h2>Leituras do período</h2>
+            <p class="cartao__sub">Geradas a partir dos filtros selecionados</p>
+          </div>
+        </header>
+        <ol class="leituras" id="leituras"></ol>
+      </section>
+
+    <section class="grade">
+      <article class="cartao cartao--largo" data-grafico="mensal">
+        <header class="cartao__topo">
+          <div>
+            <h2>Produção mensal × meta</h2>
+            <p class="cartao__sub" id="sub-mensal"></p>
+          </div>
+          <button class="alternar-tabela" type="button">Ver tabela</button>
+        </header>
+        <div class="legenda" id="leg-mensal"></div>
+        <div class="grafico" id="g-mensal"></div>
+      </article>
+
+      <article class="cartao" data-grafico="ranking">
+        <header class="cartao__topo">
+          <div>
+            <h2 id="titulo-ranking">Atingimento por regional</h2>
+            <p class="cartao__sub" id="sub-ranking">Produção ÷ meta no período. Clique numa regional para ver as agências.</p>
+          </div>
+          <button class="alternar-tabela" type="button">Ver tabela</button>
+        </header>
+        <div class="legenda" id="leg-ranking"></div>
+        <div class="grafico" id="g-ranking"></div>
+      </article>
+
+      <article class="cartao cartao--largo" data-grafico="canais">
+        <header class="cartao__topo">
+          <div>
+            <h2>Mix de canais</h2>
+            <p class="cartao__sub">Participação de cada canal na produção do mês</p>
+          </div>
+          <button class="alternar-tabela" type="button">Ver tabela</button>
+        </header>
+        <div class="legenda" id="leg-canais"></div>
+        <div class="grafico" id="g-canais"></div>
+      </article>
+
+      <article class="cartao" data-grafico="produtos">
+        <header class="cartao__topo">
+          <div>
+            <h2>Produção por produto</h2>
+            <p class="cartao__sub">Participação no total do período e atingimento da meta</p>
+          </div>
+          <button class="alternar-tabela" type="button">Ver tabela</button>
+        </header>
+        <div class="grafico" id="g-produtos"></div>
+      </article>
+
+      <article class="cartao cartao--largo">
+        <header class="cartao__topo">
+          <div>
+            <h2>Agências</h2>
+            <p class="cartao__sub" id="sub-agencias"></p>
+          </div>
+          <button class="botao botao--fantasma" id="mais-agencias" type="button">Ver todas</button>
+        </header>
+        <div class="tabela-rolagem">
+          <table class="tabela" id="t-agencias">
+            <thead><tr>
+              <th scope="col" data-ordem="nome">Agência</th>
+              <th scope="col" data-ordem="regional">Regional</th>
+              <th scope="col" class="num" data-ordem="producao">Produção</th>
+              <th scope="col" class="num" data-ordem="meta">Meta</th>
+              <th scope="col" data-ordem="atingimento">Atingimento</th>
+              <th scope="col" class="num" data-ordem="variacao">Var. a/a</th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="cartao">
+        <header class="cartao__topo">
+          <div>
+            <h2>Gerentes com maior produção</h2>
+            <p class="cartao__sub">Top 8 no período</p>
+          </div>
+        </header>
+        <ol class="gerentes" id="gerentes"></ol>
+      </article>
+
+    </section>
+
+    <footer class="rodape">
+      <p><strong>Dados sintéticos</strong>, gerados para este portfólio: o Banco Horizonte é fictício. Os números seguem padrões plausíveis de um banco de varejo com foco no público 50+.</p>
+      <p>Pipeline: extrações do core (CSV) e planilha de metas (Excel) → Python → Snowflake (RAW → STAGING → DW → MARTS) → Power BI e este painel. Projeto de <a href="https://www.linkedin.com/in/danielpegogomes/" target="_blank" rel="noopener">Daniel Pego</a>.</p>
+    </footer>
+  </main>
+
+  <div class="dica" id="dica" role="status" aria-live="polite" hidden></div>
+  <script src="painel.js" defer></script>
+</body>
+</html>

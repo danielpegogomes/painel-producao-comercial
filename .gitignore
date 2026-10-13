@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+# bases geradas localmente (python src/gerar_dados.py recria tudo em ~2 min)
+data/raw/
+data/planejamento/
+data/warehouse.duckdb*
+data/marts/*.csv
+.env
